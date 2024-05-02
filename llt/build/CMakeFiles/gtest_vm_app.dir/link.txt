@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/gtest_vm_app.dir/main_ut.cpp.o CMakeFiles/gtest_vm_app.dir/vm_ut.cpp.o -o bin/gtest_vm_app  -Wl,-Bstatic -lgtest -Wl,-Bdynamic 

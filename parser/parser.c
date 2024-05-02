@@ -244,7 +244,7 @@ static void ParseId(Parser *parser, TokenType type)
     while (isalnum(parser->curChar) || parser->curChar == '_') {
         GetNextChar(parser);
     }
-    // next_char_ptr会指向第一个不合法字符的下一个字符，因此-1
+    // next_char_ptr会指向第一个不合法字符的下一个字符，因此-1 import
     uint32_t length = (uint32_t)(parser->nextCharPtr - parser->curToken.start - 1);
     parser->curToken.type = (type != TOKEN_UNKNOWN ? type: IdOkKeyword(parser->curToken.start, length));
     parser->curToken.length = length;
@@ -508,7 +508,7 @@ void InitParser(VM *vm, Parser *parser, const char *file, const char *sourceCode
 {
     parser->file = file;
     parser->sourceCode = sourceCode;
-    // 当前字符cur_chart等于源码串的首字符
+    // 当前字符cur_char等于源码串的首字符
     parser->curChar = *parser->sourceCode;
     // 使下一个字符的地址next_char_ptr等于源码串首字符的下一个字符
     // 这样在获取下一字符时可以直接从源码串中获取，每次读取一个字符后再使

@@ -41,10 +41,10 @@ static void RunFile(const char *path)
 
 int main(int argc, const char **argv)
 {
-    if (argc == 1) {
-        ;
-    } else {
-        RunFile(argv[1]);
-    }
+    // if (argc == 1) {
+    //     ;
+    // } else {
+    RunFile("../scripts/sample/sample.spr");
+    // }
     return 0;
 }

@@ -20,3 +20,5 @@ cd build
 `googletest`
 
 `clang-libfuzz`
+
+`clog`

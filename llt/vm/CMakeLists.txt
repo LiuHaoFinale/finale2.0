@@ -12,7 +12,7 @@ set(FINALE_SRC_DIR
     $ENV{TOP_SOURCE}/class
     $ENV{TOP_SOURCE}/compiler
     $ENV{TOP_SOURCE}/gc
-    $ENV{TOP_SOURCE}/include
+    $ENV{TOP_SOURCE}/common
     $ENV{TOP_SOURCE}/parser
 )
 
@@ -36,7 +36,7 @@ set(FINALE_INC
     $ENV{TOP_SOURCE}/class
     $ENV{TOP_SOURCE}/compiler
     $ENV{TOP_SOURCE}/gc
-    $ENV{TOP_SOURCE}/include
+    $ENV{TOP_SOURCE}/common
     $ENV{TOP_SOURCE}/parser
 )
 

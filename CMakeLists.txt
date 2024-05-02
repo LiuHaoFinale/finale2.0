@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.1)
 
 project(finale)
 
+set(COMPILE_FLAGS
+    "-Wall -g -pthread -MDD"
+)
+
+add_compile_options(${COMPILE_FLAGS})
+
 set(FINALE_INC
     $ENV{TOP_SOURCE}/vm
     $ENV{TOP_SOURCE}/vm/alloc

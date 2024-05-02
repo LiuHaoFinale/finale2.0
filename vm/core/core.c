@@ -4,14 +4,15 @@
  * @Description: 
  */
 #include "core.h"
-#include "errno.h"
+#include "merror.h"
 #include <string.h>
 #include <sys/stat.h>
 #include <ctype.h>
 #include <math.h>
-#include <errno.h>
 #include <stdio.h>
 #include <time.h>
+
+char *rootDir = NULL; // 根目录
 
 char* ReadFile(const char *path)
 {

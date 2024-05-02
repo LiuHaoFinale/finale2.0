@@ -4,6 +4,10 @@
         "thread": "cpp",
         "clog.h": "c",
         "common.h": "c",
-        "stat.h": "c"
+        "stat.h": "c",
+        "any": "c",
+        "vm.h": "c",
+        "error.h": "c",
+        "alloc.h": "c"
     }
 }

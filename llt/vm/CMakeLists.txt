@@ -20,7 +20,7 @@ set(FINALE_SRC "")
 
 foreach(dir ${FINALE_SRC_DIR})
     aux_source_directory(${dir} DIR_SRC)
-    list(APPEND $FINALE_SRC ${DIR_SRC})
+    list(APPEND FINALE_SRC ${DIR_SRC})
 endforeach()
 
 # set(GTEST_INC)

@@ -15,3 +15,11 @@ set(FINALE_INC
 )
 
 include_directories(${FINALE_INC}) # finale include
+
+aux_source_directory(. VMM_DIR)
+
+add_library(
+    vmm
+    STATIC
+    ${VMM_DIR}
+)

@@ -1,4 +1,5 @@
 #include "vm.h"
+#include "merror.h"
 
 void InitVMM(VM *vm)
 {
@@ -12,7 +13,7 @@ VM* NewVMM(void)
     if (vm == NULL) {
         MEM_ERROR("Allocate vm Fail!");
     }
-    InitVM(vm);
+    InitVMM(vm);
     // BuildCore(vm); // 在读取源码之前先编译核心模块
     return vm;
 }

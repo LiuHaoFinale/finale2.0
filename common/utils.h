@@ -7,6 +7,7 @@
 #define _COMMON_UTILS_H
 
 #include "common.h"
+#include "alloc.h"
 
 typedef struct {
     char *str;
@@ -44,7 +45,6 @@ typedef struct {
             size_t oldSize = buf->capacity * sizeof(type); \
             buf->capacity = CeilToPowerOf2(newCounts); \
             size_t newSize = buf->capacity * sizeof(type); \
-            ASSERT(newSize > oldSize, "Faint ... memory allocate!"); \
             buf->datas = (type *)MemManager(vm, buf->datas, oldSize, newSize); \
         } \
         uint32_t cnt = 0; \

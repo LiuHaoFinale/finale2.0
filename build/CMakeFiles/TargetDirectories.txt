@@ -1,0 +1,3 @@
+/home/ubuntu/finale/build/CMakeFiles/finale.dir
+/home/ubuntu/finale/build/CMakeFiles/edit_cache.dir
+/home/ubuntu/finale/build/CMakeFiles/rebuild_cache.dir

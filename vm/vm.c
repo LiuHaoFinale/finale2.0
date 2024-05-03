@@ -30,7 +30,7 @@ VM* NewVMM(void)
 /**
  * @brief 释放虚拟机
 */
-void FreeVM(VM *vm)
+void FreeVMM(VM *vm)
 {
-    FLOG_SHOW(GREEN"" NONE);
+    FLOG_SHOW(GREEN"Free VMM Sucessfully!" NONE);
 }

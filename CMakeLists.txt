@@ -17,6 +17,9 @@ set(FINALE_INC
     $ENV{TOP_SOURCE}/class
     $ENV{TOP_SOURCE}/class/include
     $ENV{TOP_SOURCE}/compiler
+    $ENV{TOP_SOURCE}/compiler/assist
+    $ENV{TOP_SOURCE}/compiler/oper
+    $ENV{TOP_SOURCE}/compiler/structure
     $ENV{TOP_SOURCE}/gc
     $ENV{TOP_SOURCE}/common
     $ENV{TOP_SOURCE}/common/merror
@@ -39,6 +42,9 @@ set(FINALE_SRC_DIR
     $ENV{TOP_SOURCE}/class
     $ENV{TOP_SOURCE}/class/object
     $ENV{TOP_SOURCE}/compiler
+    $ENV{TOP_SOURCE}/compiler/assist
+    $ENV{TOP_SOURCE}/compiler/oper
+    $ENV{TOP_SOURCE}/compiler/structure
     $ENV{TOP_SOURCE}/gc
     $ENV{TOP_SOURCE}/common
     $ENV{TOP_SOURCE}/common/merror

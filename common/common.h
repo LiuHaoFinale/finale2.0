@@ -12,6 +12,7 @@
 
 #include "lhlog.h"
 
+typedef struct compileUnit CompileUnit;
 typedef struct lhclass Class;
 typedef struct parser Parser;
 typedef struct vm VM;

@@ -10,6 +10,13 @@
 #include "common.h"
 #include "token.h"
 #include "obj_fn.h"
+#include "compiler.h"
+
+#define OPCODE_SLOTS(opCode, effect) effect,
+static const int opCodeSlotsUsed[] = {
+    #include "../scripts/opcode.inc"
+};
+#undef OPCODE_SLOTS
 
 typedef struct parser {
     const char *file;
@@ -19,7 +26,7 @@ typedef struct parser {
     Token curToken;
     Token preToken;
     ObjModule *curModule; // 当前正在编译的模块
-    // CompileUnit *curCompileUnit; // 当前编译单元
+    CompileUnit *curCompileUnit; // 当前编译单元
     int interpolationExpectRightParenNum;
     VM *vm;
     struct parser *parent; // 指向父parser

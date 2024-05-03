@@ -126,3 +126,15 @@ void BindMethod(VM *vm , Class *classPtr, uint32_t index, Method method)
     }
     classPtr->methods.datas[index] = method;
 }
+
+/**
+ * @brief 定义类
+*/
+static Class* DefineClass(VM *vm, ObjModule *objModule, const char *name)
+{
+    Class *class = NewRawClass(vm, name, 0);  // 创建类
+
+    // 把类作为普通变量在模块中定义
+    DefineModuleVar(vm, objModule, name, strlen(name), OBJ_TO_VALUE(class));
+    return class;
+}

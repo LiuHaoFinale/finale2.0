@@ -47,6 +47,6 @@ struct vm {
 
 void InitVMM(VM *vm);
 VM* NewVMM(void);
-void FreeVM(VM *vm);
+void FreeVMM(VM *vm);
 
 #endif // !_VM_VM_H

@@ -20,7 +20,11 @@
         "utility": "c",
         "variant": "c",
         "chrono": "c",
-        "core.h": "c"
+        "core.h": "c",
+        "typeinfo": "cpp",
+        "classbook.h": "c",
+        "string_view": "c",
+        "stdint.h": "c"
     }
     
 }

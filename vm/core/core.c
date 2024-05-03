@@ -4,8 +4,12 @@
  * @Description: 
  */
 #include "core.h"
+#include "exec.h"
 #include "merror.h"
 #include "compiler.h"
+#include "class.h"
+#include "class_config.h"
+#include "prim_obejct.h"
 #include <string.h>
 #include <sys/stat.h>
 #include <ctype.h>
@@ -50,6 +54,44 @@ void BuildCore(VM *vm)
     ObjModule *coreModule = NewObjModule(vm, NULL); // NULL为核心模块
     // 创建核心模块，录入vm->allModule  {vt_null: coremodule}
     MapSet(vm, vm->allModules, CORE_MODULE, OBJ_TO_VALUE(coreModule));
+    
+    /**
+     * 此处有两处绑定到coreModule，将objectClass和objectMetaClass类初始化后
+     * 因为每个vm对应一个ObjModule，所以将其绑定到coreModule的模块变量
+    */
+
+    // 创建object类并绑定方法 放入coreModule->moduleVarName
+    vm->objectClass = DefineClass(vm, coreModule, "object");
+    PRIM_METHOD_BIND(vm->objectClass, "!", PrimObjectNot);
+    PRIM_METHOD_BIND(vm->objectClass, "==(_)", PrimObjectEqual);
+    PRIM_METHOD_BIND(vm->objectClass, "!=(_)", PrimObjectNotEqual);
+    PRIM_METHOD_BIND(vm->objectClass, "Is(_)", PrimObjectIs);
+    PRIM_METHOD_BIND(vm->objectClass, "ToString", PrimClassToString);
+    PRIM_METHOD_BIND(vm->objectClass, "Type", PrimObjectType);
+
+    // 定义classOfClass类，它是所有meta类的meta类和基类
+    vm->classOfClass = DefineClass(vm, coreModule, "class");
+
+    // object_class是任何类的基类，此处绑定objectClass为classOfClass的基类
+    BindSuperClass(vm, vm->classOfClass, vm->objectClass);
+
+    PRIM_METHOD_BIND(vm->classOfClass, "Name", PrimClassName);
+    PRIM_METHOD_BIND(vm->classOfClass, "SuperType", PrimClassSuperType);
+    PRIM_METHOD_BIND(vm->classOfClass, "ToString", PrimClassToString);
+
+    // object类的元信息类obejctMeta
+    Class *objectMetaClass = DefineClass(vm, coreModule, "obejctMeta");
+    // class_of_class类是所有meta类的meta类和基类
+    BindSuperClass(vm, objectMetaClass, vm->classOfClass);
+
+    PRIM_METHOD_BIND(objectMetaClass, "Same(_,_)", PrimObjectMetaSame);
+
+    // 绑定各自的meta类
+    vm->objectClass->objHeader.classPtr = objectMetaClass;
+    objectMetaClass->objHeader.classPtr = vm->classOfClass;
+    vm->classOfClass->objHeader.classPtr = vm->classOfClass; // 元信息类回路，meta类终点
+
+    ExecuteModule(vm, CORE_MODULE, coreModule); // 核心模块在此处执行
 }
 
 /**
@@ -57,34 +99,35 @@ void BuildCore(VM *vm)
 */
 ObjThread* LoadModule(VM *vm, Value moduleName, const char *moduleCode)
 {
-   ObjModule *module = GetModule(vm, moduleName);
-   // 避免重复载入
-   if (module == NULL) {
-      ObjString *modName = VALUE_TO_OBJSTR(moduleName);
+    ObjModule *module = GetModule(vm, moduleName);
+    // 避免重复载入
+    if (module == NULL) {
+        ObjString *modName = VALUE_TO_OBJSTR(moduleName);
 
-      module = NewObjModule(vm, modName->value.start);
-      MapSet(vm, vm->allModules, moduleName, OBJ_TO_VALUE(module));
+        module = NewObjModule(vm, modName->value.start);
+        MapSet(vm, vm->allModules, moduleName, OBJ_TO_VALUE(module));
 
-      // 继承核心模块中的变量
-      ObjModule *coreModule = GetModule(vm, CORE_MODULE);
-      uint32_t idx = 0;
-      while (idx < coreModule->moduleVarName.count) {
-         DefineModuleVar(vm, module, 
-               coreModule->moduleVarName.datas[idx].str, 
-               strlen(coreModule->moduleVarName.datas[idx].str), 
-               coreModule->moduleVarValue.datas[idx]);
-         idx ++;
-      }
-   }
-   /**
+        // 继承核心模块中的变量
+        ObjModule *coreModule = GetModule(vm, CORE_MODULE);
+        uint32_t idx = 0;
+        while (idx < coreModule->moduleVarName.count) {
+            DefineModuleVar(vm, module, 
+                coreModule->moduleVarName.datas[idx].str, 
+                strlen(coreModule->moduleVarName.datas[idx].str), 
+                coreModule->moduleVarValue.datas[idx]);
+            idx ++;
+        }
+    }
+    
+    /**
     * 为函数创建闭包并放到线程中
     * 闭包是函数和其环境组成的实体，为函数提供了自由变量的存储空间
-   */
-//    ObjFn *fn = CompileModule(vm, module, moduleCode); // 生成的指令流存入fn中
-//    ObjClosure *objClosure = NewObjClosure(vm, fn); // 创建闭包
-//    ObjThread *moduleThread = NewObjThread(vm, objClosure); // 根据闭包创建线程
+    */
+    ObjFn *fn = CompileModule(vm, module, moduleCode); // 生成的指令流存入fn中
+    ObjClosure *objClosure = NewObjClosure(vm, fn); // 创建闭包
+    ObjThread *moduleThread = NewObjThread(vm, objClosure); // 根据闭包创建线程
 
-//    return moduleThread;
+    return moduleThread;
     return NULL;
 }
 
@@ -129,23 +172,4 @@ int DefineModuleVar(VM *vm, ObjModule *objModule, const char *name, uint32_t len
         symbolIndex = -1;
     }
     return symbolIndex;          
-}
-
-int GetIndexFromSymbolTable(SymbolTable *table, const char *symbol, uint32_t length)
-{
-
-}
-
-/**
- * @brief 在table中添加符号symbol 返回其索引
-*/
-int AddSymbol(VM *vm, SymbolTable *table, const char *symbol, uint32_t length)
-{
-    String string;
-    string.str = ALLOCATE_ARRAY(vm, char, length + 1);
-    memcpy(string.str, symbol, length);
-    string.str[length] = '\0';
-    string.length = length;
-    StringBufferAdd(vm, table, string);
-    return table->count - 1;
 }

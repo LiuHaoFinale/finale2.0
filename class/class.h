@@ -14,6 +14,7 @@
 #include "obj_range.h"
 #include "obj_list.h"
 #include "obj_string.h"
+#include "core.h"
 
 typedef enum {
     MT_NONE, // 空方法，并不等同于undefined
@@ -105,5 +106,6 @@ Class* GetClassOfObj(VM *vm, Value object);
 Class* NewClass(VM *vm, ObjString *className, uint32_t fieldNum, Class *superClass);
 void BindSuperClass(VM *vm, Class *subClass, Class *superClass);
 void BindMethod(VM *vm , Class *classPtr, uint32_t index, Method method);
+static Class* DefineClass(VM *vm, ObjModule *objModule, const char *name);
 
 #endif //!_CLASS_CLASS_H

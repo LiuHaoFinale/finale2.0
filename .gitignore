@@ -1,2 +1,3 @@
 scripts/git_control.py
 .vscode/
+build/

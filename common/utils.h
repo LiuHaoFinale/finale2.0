@@ -77,4 +77,6 @@ DECLARE_BUFFER_TYPE(Integer)
 uint32_t CeilToPowerOf2(uint32_t v);
 void SymbolTableClear(VM*, SymbolTable* buffer);
 
+char* GetSystemTime(void);
+
 #endif // !_COMMON_UTILS_H

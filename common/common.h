@@ -10,7 +10,9 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-typedef struct class Class;
+#include "lhlog.h"
+
+typedef struct lhclass Class;
 typedef struct parser Parser;
 typedef struct vm VM;
 

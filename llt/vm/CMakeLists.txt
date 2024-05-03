@@ -9,10 +9,18 @@ find_package(libgtest REQUIRED)
 
 set(FINALE_SRC_DIR
     $ENV{TOP_SOURCE}/vm
+    $ENV{TOP_SOURCE}/vm/alloc
+    $ENV{TOP_SOURCE}/vm/core
+    $ENV{TOP_SOURCE}/vm/prim
+    $ENV{TOP_SOURCE}/vm/exec
     $ENV{TOP_SOURCE}/class
+    $ENV{TOP_SOURCE}/class/object
     $ENV{TOP_SOURCE}/compiler
     $ENV{TOP_SOURCE}/gc
     $ENV{TOP_SOURCE}/common
+    $ENV{TOP_SOURCE}/common/merror
+    $ENV{TOP_SOURCE}/common/unicode
+    $ENV{TOP_SOURCE}/common/lhlog
     $ENV{TOP_SOURCE}/parser
 )
 
@@ -33,10 +41,18 @@ set(VM_INC
 
 set(FINALE_INC
     $ENV{TOP_SOURCE}/vm
+    $ENV{TOP_SOURCE}/vm/alloc
+    $ENV{TOP_SOURCE}/vm/core
+    $ENV{TOP_SOURCE}/vm/prim
+    $ENV{TOP_SOURCE}/vm/exec
     $ENV{TOP_SOURCE}/class
+    $ENV{TOP_SOURCE}/class/include
     $ENV{TOP_SOURCE}/compiler
     $ENV{TOP_SOURCE}/gc
     $ENV{TOP_SOURCE}/common
+    $ENV{TOP_SOURCE}/common/merror
+    $ENV{TOP_SOURCE}/common/unicode
+    $ENV{TOP_SOURCE}/common/lhlog
     $ENV{TOP_SOURCE}/parser
 )
 
@@ -44,7 +60,11 @@ include_directories(${FINALE_INC}) # finale include
 include_directories(${VM_INC}) # gtest include
 
 # 添加项目目标
-add_executable(gtest_vm_app main_ut.cpp ${FINALE_SRC} ${VM_SRC})
+add_executable(gtest_vm_app
+    main_ut.cpp
+    ${FINALE_SRC}
+    ${VM_SRC}
+)
 
 set_target_properties(gtest_vm_app PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 

@@ -318,7 +318,7 @@ void GetNextToken(Parser *parser)
     parser->curToken.type = TOKEN_EOF;  // 默认文件结束
     parser->curToken.length = 0;
     parser->curToken.start = parser->nextCharPtr - 1;
-    // parser->curToken.value = 0;
+    parser->curToken.value = NUM_TO_VALUE(0);
     while (parser->curChar != '\0') {
         switch (parser->curChar) {
             case ',':
@@ -504,7 +504,7 @@ void ConsumeNextToken(Parser *parser, TokenType expected, const char * errMsg)
  * @brief 由于source_code未必来自于文件file，有可能只是一个字符串
  * @param file 仅用作跟踪待编译的代码的标识，方便报错
 */
-void InitParser(VM *vm, Parser *parser, const char *file, const char *sourceCode)
+void InitParser(VM *vm, Parser *parser, const char *file, const char *sourceCode, ObjModule *objModule)
 {
     parser->file = file;
     parser->sourceCode = sourceCode;
@@ -523,5 +523,5 @@ void InitParser(VM *vm, Parser *parser, const char *file, const char *sourceCode
     parser->preToken = parser->curToken;
     parser->interpolationExpectRightParenNum = 0;
     parser->vm = vm;
-    // parser->curModule = objModule;
+    parser->curModule = objModule;
 }

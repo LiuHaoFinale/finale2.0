@@ -4,6 +4,8 @@
  * @Description: 
  */
 #include "utils.h"
+#include <time.h>
+#include <stdlib.h>
 
 uint32_t CeilToPowerOf2(uint32_t v)
 {
@@ -29,4 +31,18 @@ void SymbolTableClear(VM* vm, SymbolTable* buffer) {
       MemManager(vm, buffer->datas[idx++].str, 0, 0); 
    }
    StringBufferClear(vm, buffer);
+}
+
+char* GetSystemTime(void)
+{
+   time_t rawTime;
+   struct tm *info;
+
+   time(&rawTime);
+   info = localtime(&rawTime);
+
+   char *buffer = (char *)malloc(sizeof(char) * 20U);
+   strftime(buffer, sizeof(char) * 20U, "%Y-%m-%d %H:%M:%S", info);
+
+   return buffer;
 }

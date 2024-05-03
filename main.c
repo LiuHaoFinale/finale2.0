@@ -10,6 +10,7 @@
 #include "parser.h"
 #include "vm.h"
 #include "core.h"
+#include "exec.h"
 #include "common.h"
 
 static void RunFile(const char *path)
@@ -22,21 +23,10 @@ static void RunFile(const char *path)
         root[lastSlash - path + 1] = '\0';
         rootDir = root; // 将路径保存在rootDir=/home/
     }
-    VM *vm = NewVMM();
+    
+    VM *vmm = NewVMM();
     const char *sourceCode = ReadFile(path);  // 读取源码
-    Parser parser;
-    InitParser(vm, &parser, path, sourceCode);
-
-    #include "scripts/sample/token.list"
-    while (parser.curToken.type != TOKEN_EOF) {
-        GetNextToken(&parser);
-        printf("%dL: %s [", parser.curToken.lineNo, tokenArray[parser.curToken.type]);
-        uint32_t idx = 0;
-        while (idx < parser.curToken.length) {
-            printf("%c", *(parser.curToken.start + idx ++));
-        }
-        printf("\n");
-    }
+    ExecuteModule(vmm, OBJ_TO_VALUE(NewObjString(vmm, path, strlen(path))), sourceCode);
 }
 
 int main(int argc, const char **argv)

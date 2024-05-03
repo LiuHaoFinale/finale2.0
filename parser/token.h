@@ -1,8 +1,14 @@
+/*
+ * @Author: LiuHao
+ * @Date: 2024-05-02 20:18:43
+ * @Description: 
+ */
 #ifndef _PARSER_TOKEN_H
 
 #define _PARSER_TOKEN_H
 
 #include "common.h"
+#include "header_obj.h"
 
 #define PEEK_TOKEN(parserPtr) parserPtr->curToken.type
 
@@ -27,7 +33,7 @@ typedef struct {
     const char *start; 
     uint32_t length; // 长度
     uint32_t lineNo; // 行号
-    // Value value; // 用于存储单词的值
+    Value value; // 用于存储单词的值
 } Token;
 
 typedef struct KeywordToken {

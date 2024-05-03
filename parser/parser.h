@@ -9,6 +9,7 @@
 
 #include "common.h"
 #include "token.h"
+#include "obj_fn.h"
 
 typedef struct parser {
     const char *file;
@@ -17,7 +18,7 @@ typedef struct parser {
     char curChar;
     Token curToken;
     Token preToken;
-    // ObjModule *curModule; // 当前正在编译的模块
+    ObjModule *curModule; // 当前正在编译的模块
     // CompileUnit *curCompileUnit; // 当前编译单元
     int interpolationExpectRightParenNum;
     VM *vm;
@@ -29,6 +30,6 @@ void GetNextToken(Parser *parser);
 boolean MatchToken(Parser *parser, TokenType expected);
 void ConsumeCurToken(Parser *parser, TokenType expected, const char *errMsg);
 void ConsumeNextToken(Parser *parser, TokenType expected, const char * errMsg);
-void InitParser(VM *vm, Parser *parser, const char *file, const char *sourceCode);
+void InitParser(VM *vm, Parser *parser, const char *file, const char *sourceCode, ObjModule *objModule);
 
 #endif //!_PARSER_PARSER_H

@@ -4,8 +4,10 @@
  * @Description: 
  */
 #include "gtest/gtest.h"
+#ifdef __cplusplus
+extern "C" {
 #include "vm.h"
-
+}
 class VMMainClass: public ::testing::Test {
     protected:
         void SetUp() override
@@ -33,3 +35,4 @@ TEST_F(VMMainClass, InitTest3)
 {
     EXPECT_EQ(NUM_TEST, 2U);
 }
+#endif

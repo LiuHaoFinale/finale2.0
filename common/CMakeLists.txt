@@ -6,11 +6,16 @@ set(FINALE_INC
     $ENV{TOP_SOURCE}/vm
     $ENV{TOP_SOURCE}/vm/alloc
     $ENV{TOP_SOURCE}/vm/core
+    $ENV{TOP_SOURCE}/vm/prim
+    $ENV{TOP_SOURCE}/vm/exec
     $ENV{TOP_SOURCE}/class
+    $ENV{TOP_SOURCE}/class/include
     $ENV{TOP_SOURCE}/compiler
     $ENV{TOP_SOURCE}/gc
     $ENV{TOP_SOURCE}/common
-    $ENV{TOP_SOURCE}/common/error
+    $ENV{TOP_SOURCE}/common/merror
+    $ENV{TOP_SOURCE}/common/unicode
+    $ENV{TOP_SOURCE}/common/lhlog
     $ENV{TOP_SOURCE}/parser
 )
 
